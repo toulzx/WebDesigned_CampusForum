@@ -3,44 +3,50 @@
   <body id='poster'>
       <!-- 分栏 -->
       <div id="container">
-        <div onselectstart="return false">
-            <el-button type="text" v-on:click="isRegistered=1" class="containerTitle" v-bind:disabled="isRegistered==1">登录</el-button>
-            <span>/</span>
-            <el-button type="text" v-on:click="isRegistered=0" class="containerTitle" v-bind:disabled="isRegistered==0">注册</el-button>
-            <span>/</span>
-            <el-button type="text" v-on:click="isRegistered=-1" class="containerTitle" v-bind:disabled="isRegistered==-1">找回</el-button>
-        </div>
-        <!-- 登录 -->
-        <el-form v-if="isRegistered==1"  label-position="left" label-width="0px">
-            <el-form-item><el-input type="text" v-model="loginForm.username" auto-complete="off" placeholder="用户名"></el-input></el-form-item>
-            <el-form-item><el-input type="password" v-model="loginForm.password" auto-complete="off" placeholder="密码"></el-input></el-form-item>
-            <el-form-item style="width: 100%"><el-button type="primary" style="width: 100%;border: none" v-on:click="login(loginForm)" v-bind:disabled="!(loginForm.username&&loginForm.password)">登录</el-button>
-            </el-form-item>
-        </el-form>
+        <el-tabs v-model="activeName" stretch="true">
+          <!-- 登录 -->
+            <el-tab-pane label="登录" name="login">
+                <el-form label-position="left" label-width="0px">
+                    <el-form-item><el-input type="text" v-model="loginForm.username" auto-complete="off" placeholder="用户名"></el-input></el-form-item>
+                    <el-form-item><el-input type="password" v-model="loginForm.password" auto-complete="off" placeholder="密码"></el-input></el-form-item>
+                    <el-form-item style="width: 100%">
+                      <el-button type="primary" style="width: 100%;border: none" v-on:click="login(loginForm)" v-bind:disabled="!(loginForm.username&&loginForm.password)">登录</el-button>
+                    </el-form-item>
+                  </el-form>
+              </el-tab-pane>
+            <el-tab-pane label="注册" name="register">
+                <el-form label-position="left" label-width="0px" v-model="registerForm">
+                    <el-form-item><el-input type="text" v-model="registerForm.username" auto-complete="off" placeholder="创建用户名" minlength="3" maxlength="10"></el-input></el-form-item>
+                    <el-form-item><el-input type="password" v-model="registerForm.password" auto-complete="off" placeholder="创建密码" show-password></el-input>
+                    <!-- ↑要不要加个确认密码↑ --> </el-form-item>
+                    <el-form-item><el-input type="text" v-model="registerForm.email" auto-complete="off" placeholder="请输入您的邮箱"></el-input></el-form-item>
+                    <el-form-item><el-row :gutter="10"> 
+                        <el-col :span="16"><el-input type="text" v-model="registerForm.vcode" auto-complete="off" placeholder="验证码"></el-input> </el-col>
+                        <el-col :span="8"><el-button type="primary" style="width: 100%; border: none" v-on:click="send_vcode" v-bind:disabled="!isEmail(registerForm.email)">获取验证码</el-button></el-col>
+                    </el-row></el-form-item>
+                    <el-form-item style="width: 100%"><el-button type="primary" style="width: 100%; border: none" v-on:click="register(registerForm)">注册</el-button></el-form-item>
+                </el-form>
+            </el-tab-pane>
+            <el-tab-pane label="找回" name="retrieve">
+                <el-form label-position="left" label-width="0px">
+                    <el-form-item><el-input type="text" v-model="retrieveForm.email" auto-complete="off" placeholder="邮箱"></el-input>  </el-form-item>
+                    <el-form-item><el-row :gutter="10">
+                        <el-col :span="16"><el-input type="text" v-model="retrieveForm.vcode" auto-complete="off" placeholder="验证码"></el-input></el-col>
+                        <el-col :span="8"><el-button type="primary" style="width: 100%; border: none" v-on:click="send_vcode" v-bind:disabled="retrieveForm.email && isEmail(retrieveForm.email)">获取验证码</el-button></el-col>
+                    </el-row></el-form-item>
+                    <el-form-item>
+                        <el-input type="newPassword" v-model="retrieveForm.password" auto-complete="off" placeholder="新密码" show-password></el-input>
+                    </el-form-item><!-- ↑要不要加个确认密码↑ --> 
+                    <el-form-item style="width: 100%"><el-button type="primary" style="width: 100%; border: none" v-on:click="retrieve(retrieveForm)">重置</el-button></el-form-item>
+                </el-form>
+            </el-tab-pane>
+        </el-tabs>
+
+        
         <!-- 注册  尝试表单验证失败 涉及ref prop rules-->
-        <el-form v-else-if="isRegistered==0" label-position="left" label-width="0px" v-model="registerForm">
-            <el-form-item><el-input type="text" v-model="registerForm.username" auto-complete="off" placeholder="创建用户名" minlength="3" maxlength="10"></el-input></el-form-item>
-            <el-form-item><el-input type="password" v-model="registerForm.password" auto-complete="off" placeholder="创建密码" show-password></el-input>
-            <!-- ↑要不要加个确认密码↑ --> </el-form-item>
-            <el-form-item><el-input type="text" v-model="registerForm.email" auto-complete="off" placeholder="请输入您的邮箱"></el-input></el-form-item>
-            <el-form-item><el-row :gutter="10"> 
-                <el-col :span="16"><el-input type="text" v-model="registerForm.vcode" auto-complete="off" placeholder="验证码"></el-input> </el-col>
-                <el-col :span="8"><el-button type="primary" style="width: 100%; border: none" v-on:click="send_vcode" v-bind:disabled="registerForm.email && isEmail(registerForm.email)">获取验证码</el-button></el-col>
-            </el-row></el-form-item>
-            
-            <el-form-item style="width: 100%"><el-button type="primary" style="width: 100%; border: none" v-on:click="register(registerForm)">注册</el-button></el-form-item>
-        </el-form>
+        
         <!-- 找回 -->
-        <el-form v-else label-position="left" label-width="0px">
-            <el-form-item><el-input type="text" v-model="retrieveForm.email" auto-complete="off" placeholder="邮箱"></el-input>  </el-form-item>
-            <el-form-item><el-row :gutter="10">
-                <el-col :span="16"><el-input type="text" v-model="retrieveForm.vcode" auto-complete="off" placeholder="验证码"></el-input></el-col>
-                <el-col :span="8"><el-button type="primary" style="width: 100%; border: none" v-on:click="send_vcode" v-bind:disabled="retrieveForm.email && isEmail(retrieveForm.email)">获取验证码</el-button></el-col>
-            </el-row></el-form-item>
-            <el-form-item><el-input type="newPassword" v-model="retrieveForm.password" auto-complete="off" placeholder="新密码" show-password></el-input>
-            <!-- ↑要不要加个确认密码↑ --> </el-form-item>
-            <el-form-item style="width: 100%"><el-button type="primary" style="width: 100%; border: none" v-on:click="retrieve(retrieveForm)">重置</el-button></el-form-item>
-        </el-form>
+        
       </div>
   </body>
 </template>
@@ -51,6 +57,7 @@
     name: 'Login',
     data () {
       return {
+        activeName: 'register',
         isRegistered: 0,
         //↑默认为0 未注册，1 登录，-1找回密码
         loginForm: {
@@ -88,7 +95,7 @@
       }
     },  
     methods: {
-      
+
       login (loginForm) {
           this.$axios
           .post('/Login',{
@@ -105,8 +112,15 @@
       },
 
       isEmail (email) {
-          let reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;
-          return reg.test(email);
+          let reg = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+$/;
+          if(email != ''){
+            console.log(reg.test(email));
+            return reg.test(email);
+          }else{
+            return false;
+          }
+          
+          
       },
 
       send_vcode () {

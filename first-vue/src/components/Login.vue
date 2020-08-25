@@ -1,11 +1,11 @@
 <template>
     
-  <body id='poster'>
+  <body id='poster' :style="background">
       <!-- 分栏 -->
       <div id="container">
-        <el-tabs v-model="activeName" stretch="true">
+        <el-tabs v-model="activeName" stretch="true" >
           <!-- 登录 -->
-            <el-tab-pane label="登录" name="login">
+            <el-tab-pane label="登录" name="login" >
                 <el-form label-position="left" label-width="0px">
                     <el-form-item><el-input type="text" v-model="loginForm.username" auto-complete="off" placeholder="用户名"></el-input></el-form-item>
                     <el-form-item><el-input type="password" v-model="loginForm.password" auto-complete="off" placeholder="密码"></el-input></el-form-item>
@@ -22,7 +22,7 @@
                     <el-form-item><el-input type="text" v-model="registerForm.email" auto-complete="off" placeholder="请输入您的邮箱"></el-input></el-form-item>
                     <el-form-item><el-row :gutter="10"> 
                         <el-col :span="16"><el-input type="text" v-model="registerForm.vcode" auto-complete="off" placeholder="验证码"></el-input> </el-col>
-                        <el-col :span="8"><el-button type="primary" style="width: 100%; border: none" v-on:click="send_vcode" v-bind:disabled="!isEmail(registerForm.email)">获取验证码</el-button></el-col>
+                        <el-col :span="8"><el-button type="primary" style="width: 100%; border: none" v-on:click="send_vcode(registerForm)" v-bind:disabled="!isEmail(registerForm.email)">获取验证码</el-button></el-col>
                     </el-row></el-form-item>
                     <el-form-item style="width: 100%"><el-button type="primary" style="width: 100%; border: none" v-on:click="register(registerForm)">注册</el-button></el-form-item>
                 </el-form>
@@ -32,7 +32,7 @@
                     <el-form-item><el-input type="text" v-model="retrieveForm.email" auto-complete="off" placeholder="邮箱"></el-input>  </el-form-item>
                     <el-form-item><el-row :gutter="10">
                         <el-col :span="16"><el-input type="text" v-model="retrieveForm.vcode" auto-complete="off" placeholder="验证码"></el-input></el-col>
-                        <el-col :span="8"><el-button type="primary" style="width: 100%; border: none" v-on:click="send_vcode" v-bind:disabled="retrieveForm.email && isEmail(retrieveForm.email)">获取验证码</el-button></el-col>
+                        <el-col :span="8"><el-button type="primary" style="width: 100%; border: none" v-on:click="send_vcode(registerForm)" v-bind:disabled="!isEmail(retrieveForm.email)">获取验证码</el-button></el-col>
                     </el-row></el-form-item>
                     <el-form-item>
                         <el-input type="newPassword" v-model="retrieveForm.password" auto-complete="off" placeholder="新密码" show-password></el-input>
@@ -52,7 +52,6 @@
 </template>
 
 <script>
-
   export default {
     name: 'Login',
     data () {
@@ -61,19 +60,19 @@
         isRegistered: 0,
         //↑默认为0 未注册，1 登录，-1找回密码
         loginForm: {
-            username: '',
-            password: ''
+            username: 'lzx1',
+            password: '1111'
         },
         registerForm: {
-            username: '',
-            password: '',
-            email: '',
-            vcode: ''
+            username: 'lzx2',
+            password: '111',
+            email: '820458126@qq.com',
+            vcode: '111'
         },
         retrieveForm:{
-            email: '',
-            vcode: '',
-            newPassword: ''
+            email: '820458126@qq.com',
+            vcode: '1111',
+            newPassword: '2222'
         },
         responseResult: [],
 
@@ -92,99 +91,146 @@
         //     { required: true, message: '请输入验证码', trigger: 'blur' }
         //   ]
         // }
+        background: {
+          margin: "0",
+          padding: "0",
+          height: "100vh",
+          width: "100%",
+          backgroundImage: "url(" + require("../assets/1.jpg") + ")",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "100% 100%",
+          // position: "absolute",
+          overflow: "hidden",
+      },
       }
     },  
     methods: {
-
+      
       login (loginForm) {
-          this.$axios
-          .post('/Login',{
-              username: this.loginForm.username,
-              password: this.loginForm.password
+          let param = new URLSearchParams()
+          param.append('username', this.loginForm.username),
+          param.append('password', this.loginForm.password),
+          this.$axios({
+              method: 'post',
+              url: '/login',
+              data: param
           })
           .then(successResponse => {
-            if (successResponse.data.code === 200) {//！！！这里还需修改：如果成功，返回值？
-              this.$router.replace({path: '/index'})
-            }
-          })
-          .catch(failResponse => {//！！！这里还需修改：如果失败，该做什么
+            if(successResponse.data == 200) this.$router.replace({path: '/index'})
+            else 
+            this.$message({
+                showClose: true,
+                message: '查无此人',
+                type: 'error' 
+            });
           })
       },
 
       isEmail (email) {
           let reg = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+$/;
           if(email != ''){
-            console.log(reg.test(email));
+            // console.log(reg.test(email));
             return reg.test(email);
           }else{
             return false;
-          }
-          
-          
+          }  
       },
 
-      send_vcode () {
-          this,$axios
-          .post('/SendIdentification',{
-              email: this.registerForm.email
+      send_vcode (registerForm) {
+          let param = new URLSearchParams()
+          param.append('username', this.registerForm.username),
+          param.append('email', this.registerForm.email),
+          this.$axios({
+              method: 'post',
+              url: '/sendIdentification',
+              data: param
           })
+          // this.$axios
+          // .post('http://bravoboom.tpddns.cn:4321/sendIdentification',{
+          //   params:{
+          //     username: this.registerForm.username,
+          //     email: this.registerForm.email
+
+          //   }
+          // })
+          .then(successResponse => {
+            console("send_vcode()返回")
+            console("send_vcode()返回：" + successResponse)
+          })
+          // .catch(failResponse => {//！！！这里还需修改：如果失败，该做什么
+          //   alert("服务器请求失败。tips:send_vcode()")
+          // })
       },
 
       register (registerForm) {
-        // this.$refs.toString(registerForm).validate((valid) => {//注意这里传参时要register (‘registerForm’)单引号
-        //   if (valid) {
-        //     alert('submit!');
-        //   } else {
-        //     console.log('error submit!!');
-        //     return false;
-        //   }
-        // });
-
-        this.$axios
-          .post('/Register', {
-            username: this.registerForm.username,
-            password: this.registerForm.password,
-            email: this.registerForm.email,
-            vcode: this.registerForm.vcode
+        const _this = this
+        let param = new URLSearchParams()
+          param.append('username', this.registerForm.username),
+          param.append('password', this.registerForm.password),
+          param.append('email', this.registerForm.email),
+          param.append('identification', this.registerForm.vcode),
+          this.$axios({
+              method: 'post',
+              url: '/register',
+              data: param
           })
-          .then(successResponse => {
-            if (successResponse.data.code === 200) {//！！！这里还需修改：如果成功，返回值？
-              this.$router.replace({path: '/index'})
-            }
-          })
-          .catch(failResponse => {//！！！这里还需修改：如果失败，该做什么
+           .then(successResponse => {
+             if(successResponse.data == 200){
+                this.$router.replace({path: '/index'})
+             }else if(successResponse.data == 404){
+                this.$message({
+                  showClose: true,
+                  message: '验证码错误',
+                  type: 'error' 
+                });
+             }else if(successResponse.data == 411){
+                this.$message({
+                  showClose: true,
+                  message: '好像还没获取验证码噢(⊙o⊙)？',
+                  type: 'warning' 
+                });
+             }
+           
           })
       },
 
       retrieve (retrieveForm) {
-          this.$axios
-          .post('/Retrieve',{
-              email: this.retrieveForm.email,
-              vcode: this.retrieveForm.vcode,
-              newPassword: this.retrieveForm.newPassword
+          let param = new URLSearchParams()
+          param.append('email', this.retrieveForm.email),
+          param.append('identification', this.retrieveForm.vcode),
+          param.append('newPassword', this.retrieveForm.newPassword)
+          this.$axios({
+              method: 'post',
+              url: '/retrieve',
+              data: param
           })
-          .then(successResponse => {
-            if (successResponse.data.code === 200) {//！！！这里还需修改：如果成功，返回值？
-              this.$router.replace({path: '/index'})
-            }
-          })
-          .catch(failResponse => {//！！！这里还需修改：如果失败，该做什么
+           .then(successResponse => {
+             if(successResponse.data == 200){
+                this.$message({
+                  showClose: true,
+                  message: '密码修改成功',
+                  type: 'success' 
+                });
+             }else if(successResponse.data == 404){
+                this.$message({
+                  showClose: true,
+                  message: '验证码错误',
+                  type: 'error' 
+                });
+             }else if(successResponse.data == 411){
+                this.$message({
+                  showClose: true,
+                  message: '好像还没获取验证码噢(⊙o⊙)？',
+                  type: 'warning' 
+                }); 
+             }  
           })
       }
-      
     }
   }
 </script>
 
 <style>
-/* #poster {
-        background:url("../assets/eva.jpg") no-repeat;
-        background-position: center;
-        height: 100%;
-        width: 100%;
-        background-size: cover;
-        position: fixed;
-  } */
   body{
     margin: 0px;
   }
@@ -199,13 +245,4 @@
     border: 1px solid #eaeaea;
     box-shadow: 0 0 25px #cac6c6;
   }
-  
-  /* .containerTitle {
-    margin: 0px auto 40px auto;
-    text-align: center;
-    color: #505458;
-  } */
-
-    
-
 </style>

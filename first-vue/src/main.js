@@ -9,6 +9,8 @@ import 'element-ui/lib/theme-chalk/index.css'
 
 import "./axios"
 
+import './permission.js' // 路由拦截
+
 // 设置反向代理，前端请求默认发送到 http://localhost:8443/api
 var axios = require('axios')
 axios.defaults.baseURL = 'http://bravoboom.tpddns.cn:4321'
@@ -28,3 +30,19 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requireAuth) {
+    if (store.state.user.username) {
+      next()
+    } else {
+      next({
+        path: 'login',
+        query: {redirect: to.fullPath}
+      })
+    }
+  } else {
+    next()
+  }
+}
+)

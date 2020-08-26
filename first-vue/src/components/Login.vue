@@ -107,6 +107,8 @@
     methods: {
       
       login (loginForm) {
+          var _this = this
+          console.log(this.$store.state)
           let param = new URLSearchParams()
           param.append('username', this.loginForm.username),
           param.append('password', this.loginForm.password),
@@ -116,7 +118,11 @@
               data: param
           })
           .then(successResponse => {
-            if(successResponse.data == 200) this.$router.replace({path: '/index'})
+            if(successResponse.data == 200){
+               _this.$store.commit('login', _this.loginForm)
+              var path = this.$route.query.redirect
+              this.$router.replace({path: '/index'})
+            } 
             else 
             this.$message({
                 showClose: true,

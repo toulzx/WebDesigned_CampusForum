@@ -103,7 +103,7 @@ export default new Router({
         path: '/tiezi/add',
         name: 'TieziEdit',
         component: TieziEdit,
-        meta: {requireAuth: true}, //这里好像和拦截器有关！！！//需要token
+        // meta: {requireAuth: true}, //这里好像和拦截器有关！！！//需要token
       },
       {
         path: '/tiezi/:tzId',
@@ -111,12 +111,12 @@ export default new Router({
         component: Tiezi,
         meta: {requireAuth: true}, //这里好像和拦截器有关！！！//需要token
       },
-      {
-        path: '/tiezi/:tzId/edit',
-        name: 'TieziEdit',
-        component: TieziEdit,
-        meta: {requireAuth: true}, //这里好像和拦截器有关！！！//需要token
-      }
+      // {
+      //   path: '/tiezi/:tzId/edit',
+      //   name: 'TieziEdit',
+      //   component: TieziEdit,
+      //   meta: {requireAuth: true}, //这里好像和拦截器有关！！！//需要token
+      // }
       
     
   ]

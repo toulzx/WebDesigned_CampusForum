@@ -44,8 +44,6 @@
       commentData: [],//评论
       plateLink:{},
 
-      recommendData: [],
-
       tiezi: {   },
       currentPage: 1,
       total: 0,

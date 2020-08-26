@@ -9,6 +9,7 @@ const mock ={
             like: 5,
             content: "今天我去了一趟地底世界<br>我看到了奥特曼！！！",
             remark: {
+                rid: 1,
                 time: "2008-01-01 10:05",
                 like: 1,
                 content: "你说的真好！",
@@ -23,6 +24,7 @@ const mock ={
             like: 8,
             content: "我今天吃shit了啊啊啊好开心！！！",
             remark: {
+                rid:1,
                 time: "2055-03-01 09:05",
                 like: 999,
                 content: "sbcnm滚！！！！",

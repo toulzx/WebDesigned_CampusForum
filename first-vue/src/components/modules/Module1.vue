@@ -3,7 +3,7 @@
 </template>
 
 <script>
-  import * as CommentData from '../common/Tiezi_mockdata'
+  import {mock} from '../common/Tiezi_mockdata'
   import comment from '@/components/common/Tiezi'
 
   export default {
@@ -11,7 +11,7 @@
       comment
     },
     created(){
-      this.commentData = CommentData.mock.data;
+      this.commentData = mock.data;
       console.log(this.commentData)
     },
     data () {

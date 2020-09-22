@@ -3,7 +3,7 @@
   <body id='poster' :style="background">
       <!-- 分栏 -->
       <div id="container">
-        <el-tabs v-model="activeName" stretch="true" >
+        <el-tabs v-model="activeName" :stretch="true" >
           <!-- 登录 -->
             <el-tab-pane label="登录" name="login" >
                 <el-form label-position="left" label-width="0px">

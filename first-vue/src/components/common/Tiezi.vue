@@ -1,7 +1,7 @@
 <!--评论模块-->
 <template>
   <div class="container">
-    <div class="comment" v-for="item in comments" v-bind:key="item">
+    <div class="comment" v-for="item in comments" v-bind:key="item.index">
         <!-- 主评论 -->
       <div class="content">{{item.content}}</div>
        <div class="info">
@@ -27,7 +27,7 @@
       </div>
       <!-- 回复 -->
       <div class="reply" v-if="showReplyId === item.id">
-        <div class="item" v-for="remark in item.remark" v-bind:key="remark">
+        <div class="item" v-for="remark in item.remark" v-bind:key="remark.index">
           <div class="reply-content">
             <span class="from-name">{{remark.author}}</span><span>: </span>
             <span class="to-name">@{{remark.target}}</span>
@@ -194,7 +194,7 @@
 </script>
 
 
-<style scoped>
+<style >
 /*
 **
 // style scoped lang="scss"
@@ -204,13 +204,13 @@
   padding: 0 10px;
   box-sizing: border-box;
 }
-.container .comment {
+.comment {
   display: flex;
   flex-direction: column;
   padding: 10px;
   border-bottom: 1px solid #F2F6FC;
 }
-.container .comment .info {
+.info {
   display: flex;
   align-items: center;
 }
@@ -219,48 +219,48 @@
   height: 36px;
   border-radius: 50%;
 }
-.container .comment .info .right {
+.right {
   display: flex;
   flex-direction: column;
   margin-left: 10px;
 }
-.container .comment .info .right .name {
+ .name {
   text-align: left;
   font-size: 16px;
   color: #606266;
   margin-bottom: 5px;
   font-weight: 500;
 }
-.container .comment .info .right .date {
+ .date {
   font-size: 12px;
   font-weight: lighter;
   color: #909399;
 }
-.container .comment .content {
+.content {
   text-align: left;
   font-size: 16px;
   color: #303133;
   line-height: 20px;
   padding: 10px 0 10px 46px;/*36+10*/ 
 }
-.container .comment .control {
+.control {
   display: flex;
   align-items: center;
   font-size: 13px;
   color: #909399;
   padding: 0 0 0 46px;
 }
-.container .comment .control .like {
+.like {
   display: flex;
   align-items: center;
   margin-right: 20px;
   cursor: pointer;
 }
-.container .comment .control .like.active, 
-.container .comment .control .like:hover {
+ .like.active, 
+.like:hover {
   color: #409EFF;
 }
-.container .comment .control .like .iconfont {
+.iconfont {
   font-size: 14px;
   margin-right: 5px;
 }

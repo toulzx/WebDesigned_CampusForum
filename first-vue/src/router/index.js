@@ -29,6 +29,11 @@ export default new Router({
   
   routes: [
     {
+      path:'/',
+      name:'/',
+      component:Login
+  },
+    {
        path: '/login', 
       name: 'Login', 
       component: Login 
@@ -39,7 +44,7 @@ export default new Router({
       name: 'Home', 
       component:Home, 
       redirect: 'Index', 
-      meta: {requireAuth: true}, //这里好像和拦截器有关！！！//需要token
+      //meta: {requireAuth: true}, //这里好像和拦截器有关！！！//需要token
       children: [
         {
           path: '/index', 
@@ -61,7 +66,7 @@ export default new Router({
         path: '/modules',
         name: 'Modules',
         component: Modules,
-        meta: {requireAuth: true}, //这里好像和拦截器有关！！！//需要token
+        //meta: {requireAuth: true}, //这里好像和拦截器有关！！！//需要token
         children: [
           {
             path: '/module1',
@@ -84,13 +89,13 @@ export default new Router({
         path: '/admin',
         name: 'Admin',
         component: Admin,
-        meta: {requireAuth: true}, //这里好像和拦截器有关！！！//需要token
+       //meta: {requireAuth: true}, //这里好像和拦截器有关！！！//需要token
       },
       {
         path: '/updateInfo',
         name: 'UpdateInfo',
         component: UpdateInfo,
-        meta: {requireAuth: true}, //这里好像和拦截器有关！！！//需要token
+        //meta: {requireAuth: true}, //这里好像和拦截器有关！！！//需要token
       },
       {
         path: '/uploadPic',

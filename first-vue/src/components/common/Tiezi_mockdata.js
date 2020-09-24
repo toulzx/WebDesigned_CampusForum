@@ -22,7 +22,7 @@ export var mock ={
                     time: "2008-01-02 10:05",
                     like: 5,
                     content: "我好喜欢你啊！",
-                    author: "yyp",
+                    author: "杨亚鹏",
                     target: "lzx1"
                  }
                 
@@ -30,7 +30,7 @@ export var mock ={
         },
         {
             id: 2,
-            author: "yyp",
+            author: "杨亚鹏",
             time: "2011-01-12 23:05",
             like: 8,
             content: "我今天吃shit了啊啊啊好开心！！！",

@@ -81,7 +81,7 @@
         },500);
         setTimeout(function(){
           that.under_sty={visibility: 'visible'};
-        },1000);
+        },500);
       },
       showit(){
         if(this.check%2) this.showdown();

@@ -1,7 +1,7 @@
 <!--评论模块-->
 <template>
   <div class="tz_container">
-    <div class="comment" v-for="item in comments" v-bind:key="item.index">
+    <div class="comment" v-for="item in comments" v-bind:key="item.index" >
         <!-- 主评论 -->
       
       

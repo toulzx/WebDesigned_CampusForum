@@ -13,12 +13,15 @@
     </div>
     <div>补充:<span class="supplement">{{item.supplement}}</span>  </div> 
     <br>
-    <div class="info">   
+    <div class="infoBox">
+      <div class="info">   
       <span>{{item.author}}</span>  
       <span style="border:dashed #909399 1px">{{showStatus(item.status)}}</span>
     </div>   
     <div class="info"> {{item.self_introduction}}  </div> 
-    <div class="info">联系方式：{{item.contact}}  </div> 
+    <div class="info">联系方式：{{item.contact}}  </div>
+    </div>
+     
   </el-card>
 </div>
 
@@ -64,7 +67,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: auto;/*去你大爷，没这个不居中*/ 
+    margin: auto;
     padding: 20px;
   }
   *{
@@ -88,9 +91,19 @@
   .supplement {
     color: #606266;
   }
+  .infoBox {
+    display: flex;
+    flex-direction: column;
+  }
   .info,
   .info span {
     font-size: small;
     color: #909399;
+   
   }
+  .info {
+    text-align: center; 
+    margin: auto;
+  }
+
 </style>

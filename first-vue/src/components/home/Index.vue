@@ -20,7 +20,7 @@
             <div class="text item">
               <!-- <img class="module" src="http://ww4.sinaimg.cn/bmiddle/006DLFVFgy1ft0j2pddjuj30v90uvagf.jpg"/> -->
               <el-divider direction="vertical"></el-divider>
-              <router-link to='/module1'><el-button type="text">学习互助</el-button></router-link>
+              <router-link to='/module1'><el-button type="text">柚子夜话</el-button></router-link>
             </div>
           </el-card>
         </el-col>

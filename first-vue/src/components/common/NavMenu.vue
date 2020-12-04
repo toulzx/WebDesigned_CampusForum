@@ -2,7 +2,7 @@
 <!-- 使用了vue-router模式 -->
     <el-menu
       class="menu"
-      :default-active="'/index'"
+      :default-active="$route.path"
       router
       mode="horizontal"
       text-color="#213F99"

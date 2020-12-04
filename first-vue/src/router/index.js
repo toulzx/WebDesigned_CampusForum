@@ -17,6 +17,10 @@ import Module1 from '@/components/modules/Module1'
 import Module2 from '@/components/modules/Module2'
 import Module3 from '@/components/modules/Module3'
 
+import Tag1 from '@/components/common/Tag1'
+import Tag2 from '@/components/common/Tag3'
+import Tag3 from '@/components/common/Tag2'
+
 import Tiezi from '@/components/Tiezi'
 import TieziEdit from '@/components/TieziEdit'
 
@@ -63,27 +67,37 @@ export default new Router({
         }
       ]},
       {
-        path: '/modules',
-        name: 'Modules',
-        component: Modules,
-        //meta: {requireAuth: true}, //这里好像和拦截器有关！！！//需要token
+        path: '/module1',
+        name: 'Module1',
+        component: Module1,
+        redirect: 'tag1', 
         children: [
           {
-            path: '/module1',
-            name: 'Module1',
-            component: Module1
+            path: '/tag1', 
+            name: 'tag1', 
+            component: Tag1
           },
           {
-            path: '/module2',
-            name: 'Module2',
-            component: Module2
+            path: '/tag2', 
+            name: 'tag2', 
+            component: Tag2
           },
           {
-            path: '/module3',
-            name: 'Module3',
-            component: Module3
+            path: '/tag3',
+            name: 'tag3',
+            component: Tag3
           }
         ]
+      },
+      {
+        path: '/module2',
+        name: 'Module2',
+        component: Module2
+      },
+      {
+        path: '/module3',
+        name: 'Module3',
+        component: Module3
       },
       {
         path: '/admin',

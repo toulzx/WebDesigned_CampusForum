@@ -15,15 +15,13 @@
         </div>
         <el-form-item label="补充" prop="supplement" style="marginTop: 20px;">  <el-input type="textarea" v-model="ruleForm.supplement"></el-input> </el-form-item>
         <el-form-item label="联系方式" prop="contact">  <el-input v-model="ruleForm.contact"></el-input> </el-form-item>
-        <el-button type="primary" v-on:click="">发布项目需求</el-button>
+        <el-button type="primary">发布项目需求（未添加methods）</el-button>
         <el-button id="toReleaseBtn" v-on:click="todetail()">取消</el-button>
       </el-form>
     </div>
     <button class="el-icon-s-promotion" id="add" v-on:click="toRelease()"></button>
     <ProjectDocking :ProjectDockings="ProjectDockingData" id="ProjectDocking"></ProjectDocking>   
   </div>
-     
-
 </template>
 
 
